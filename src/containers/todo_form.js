@@ -11,29 +11,35 @@ class ToDoForm extends Component {
     };
   }
 
-  showSelected() {
-    if (this.props.todoDetail) {
-      console.log("set state");
-      this.setState({
-        _name: this.props.todoDetail.name,
-        _age: this.props.todoDetail.age,
-      });
+  componentDidUpdate(previousProps){
+    if(previousProps.todoDetail !== this.props.todoDetail) {
+      if (this.props.todoDetail){
+        this.setState({
+          _name: this.props.todoDetail.name,
+          _age: this.props.todoDetail.age,
+        });
+        // return;
+      }
+      else{
+        this.setState({
+          _name: "",
+          _age: 0,
+        });
+        // return;
+      }
     }
-    // this.setState({
-    //   _name: "",
-    //   _age: 0,
-    // });
   }
 
+
   render() {
+    // this.showSelected();
     return (
       <div>
         Name:
-        <input type="text" ref="txtTodo" />
+        <input type="text" ref="txtTodo" value={this.state._name} onChange={(ev)=>{this.setState({_name: ev.target.value})}}/>
         <br />
-        Age:<input type="number" min="0" max="1000" ref="txtAge" />
+        Age:<input type="number" min="0" max="1000" ref="txtAge" value={this.state._age} onChange={(ev)=>{this.setState({_age: ev.target.value})}}/>
         <br />
-        <input type="hidden" ref="hidIndex" value="4" />
         <button
           onClick={() => {
             this.props.addToDo({
@@ -46,7 +52,7 @@ class ToDoForm extends Component {
         </button>
         <button
           onClick={() => {
-            this.props.updateToDo(4, {
+            this.props.updateToDo(this.props.index, {
               name: this.refs.txtTodo.value,
               age: this.refs.txtAge.value,
             });
@@ -62,6 +68,7 @@ class ToDoForm extends Component {
 function mapStateToProps(state) {
   return {
     todoDetail: state.todo.detail,
+    index: state.todo.index,
   };
 }
 

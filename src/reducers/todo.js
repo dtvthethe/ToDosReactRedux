@@ -20,8 +20,14 @@ export function todoReducer(state = todos(), action) {
       console.log(action);
       return {
         list: state.list.map((item, index) => {
-          if (index === action.index) {
-            item = action.payload;
+          if (index == action.index) {
+            return item = {
+              name: action.payload.name,
+              age: action.payload.age,
+            };
+          }
+          else{
+            return item = state.list[index];
           }
         }),
       };
@@ -29,6 +35,7 @@ export function todoReducer(state = todos(), action) {
       return {
         list: state.list,
         detail: state.list[action.payload],
+        index: action.payload,
       };
     case ALL:
       return {
