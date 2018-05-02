@@ -1,10 +1,15 @@
 import React from "react";
 import { render } from "react-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { myReducer } from "./reducers";
+import ToDoComponent from "./components/todo_com";
 
-const App = () => (
-  <div>
-    <h3>Halu</h3>
-  </div>
+const myStore = createStore(myReducer);
+
+render(
+  <Provider store={myStore}>
+    <ToDoComponent />
+  </Provider>,
+  document.getElementById("root")
 );
-
-render(<App />, document.getElementById("root"));
